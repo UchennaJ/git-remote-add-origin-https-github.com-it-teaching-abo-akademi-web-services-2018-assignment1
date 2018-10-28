@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}YAAS{% endblock %}
+
+{% block content %}
+
+    <div class="row"><label class="control-label pull-right">{% trans "Search by title or description:" %}</label></div>
+    <div class="row">
+        <form class="form-inline pull-right" action="/YAAS/auction/search/" method="post">
+            {% csrf_token %}
+            <div class="form-group pull-left">
+                <input type="text" class="form-control" name="criteria" placeholder=" Search criteria">
+            </div>
+            <input type="submit" class="btn btn-primary pull-right" value="Search">
+        </form>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{% trans "Auction title" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Seller" %}</th>
+                <th>{% trans "End date" %}</th>
+                <th>{% trans "Minimum price" %}</th>
+                <th>{% trans "Current bid" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for a in auctions %}
+                <tr>
+                    <td><a href="/YAAS/auction/{{ a.id }}/">{{ a.title }}</a></td>
+                    <td>{{ a.description|truncatechars:20 }}</td>
+                    <td>{{ a.seller.get_full_name }}</td>
+                    <td>{{ a.end_date|date:"d.m.Y H:i" }}</td>
+                    <td>{{ a.minimum_price|floatformat:2 }}</td>
+                    <td>{{ a.getLatestBid|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

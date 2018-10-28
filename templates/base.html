@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}YAAS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer="defer" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+    <script defer="defer" src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+</head>
+<body>
+
+{% load i18n %}
+
+<div class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <b><a href="/YAAS/" class="navbar-brand">Welcome To Auction Site</a></b>
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse navHeaderCollapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/YAAS/">{% trans "Home" %}</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/YAAS/auction/create/">{% trans "Create auction" %}</a></li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Change language" %}<strong class="caret"></strong></a>
+                    <div class="dropdown-menu" style="padding: 15px;">
+                        <form class="form" id="formLang" action="/YAAS/language/lang_code/" method="post">
+                            {% csrf_token %}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="language" value="en" checked>
+                                    {% trans "English" %}
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="language" value="sv" >
+                                    {% trans "Swedish" %}
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="language" value="fi" >
+                                    {% trans "Finnish" %}
+                                </label>
+                            </div>
+                            <input class="btn btn-default" style="width:100%" type="submit" value={% trans "Change" %}>
+                            <p>Current language: {% get_current_language as LANGUAGE_CODE %} {{ LANGUAGE_CODE }}</p>
+
+    <br> <br>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li><p class="navbar-text"><b>{% trans "Logged in as " %}{{ user.username }}</b></p></li>
+                <li><a href="/YAAS/user/">{% trans "Edit user info" %}</a></li>
+                <li><a href="/YAAS/logout/">{% trans "Logout" %}</a></li>
+                {% else %}
+                <li><a href="/YAAS/user/register/">{% trans "Register new user" %}</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Login" %}<strong class="caret"></strong></a>
+                    <div class="dropdown-menu" style="padding: 15px;">
+                        <form class="form" id="formLogin" action="/YAAS/login/" method="post">
+                            {% csrf_token %}
+                            <input style="margin-bottom: 10px;" type="text" name="username"placeholder={% trans "Username" %}><br/>
+                            <input style="margin-bottom: 10px;" type="password" name="password" placeholder={% trans "Password" %}><br/>
+                            <input type="hidden" name="next" value="{{ next|escape }}">
+                            <input class="btn btn-default" style="width:172px" type="submit" value={% trans "Login" %}>
+                        </form>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

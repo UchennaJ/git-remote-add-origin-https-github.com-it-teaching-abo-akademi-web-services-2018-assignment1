@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}YAAS - {% trans "Confirmation" %}{% endblock %}
+
+{% block content %}
+    <form class="form-horizontal" action="/YAAS/auction/create/confirmation/" method="post">
+        {% csrf_token %}
+        <h3>{% trans "Your Auction is about to be created please confirm" %}</h3>
+        {{ form.as_p }}
+        <input type=hidden name="title" value="{{ auctionform.title.value }}">
+        <input type=hidden name="description" value="{{ auctionform.description.value }}">
+        <input type=hidden name="end_date" value="{{ auctionform.end_date.value }}">
+        <input type=hidden name="minimum_price" value="{{ auctionform.minimum_price.value }}">
+        <input type="submit" class="btn btn-primary" style="width:120px;" value={% trans "Submit" %}>
+    </form>
+{% endblock %}

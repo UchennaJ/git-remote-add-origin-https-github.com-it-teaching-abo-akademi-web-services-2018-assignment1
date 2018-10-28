@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}YAAS - {% trans "Registration" %}{% endblock %}
+
+{% block content %}
+    <form class="form-horizontal" action="/YAAS/user/register/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" style="width:120px;" value={% trans "Register" %}>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}YAAS - {{ user.username }}{% endblock %}
+
+{% block content %}
+    <div class="col-md-5">
+        <form class="form-horizontal" action="/YAAS/user/" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>{% trans "Edit user" %}</legend>
+                <p><b>{% trans "User ID:" %} </b> {{ user.id }}</p>
+                <p><b>{% trans "Name:" %} </b>{{ user.get_full_name }}</p>
+                <p><b>{% trans "Username:" %} </b> {{ user.username }}</p>
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value={% trans "Save" %}>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
