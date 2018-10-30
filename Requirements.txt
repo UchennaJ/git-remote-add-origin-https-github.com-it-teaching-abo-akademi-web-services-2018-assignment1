@@ -1,0 +1,9 @@
+Python packages used:
+
+•	Python 3.7
+•	Django 2.1.1
+•	Django-cron 1.4.1
+•	Django rest frame work 3.9
+•	Django money rates 
+•	Gettext- 0.19
+•	Database: SQLite3
